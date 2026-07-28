@@ -1,5 +1,5 @@
 export default function sitemap() {
-  const baseUrl = 'https://gunmalove-gyeonggi.shop';
+  const baseUrl = 'https://gunmalove-gyeonggi.shop'; // (실제 사용 배포 도메인)
 
   const incheonGus = [
     'bupyeong', 'yeonsu', 'namdong', 'seogu',
