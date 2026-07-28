@@ -18,7 +18,7 @@ export const metadata = {
   },
   verification: {
     other: {
-      'naver-site-verification': '네이버_발급_코드값',
+      'naver-site-verification': '69053d9ece5c72d8b4425ae09377011a7a2bad34',
     },
   },
 };
