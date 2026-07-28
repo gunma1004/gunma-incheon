@@ -66,41 +66,19 @@ const shops = [
 
 // ⭐️ 인천광역시 8개 주요 구 및 동 데이터
 const incheonGus = {
-  bupyeong: { name: '부평구', dongs: ['부평동', '산곡동', '청천동', '갈산동', '삼산동', '부개동', '십정동'] },
+  bupyeong: { name: '부평구', dongs: ['부평동', '산곡동', '청천동', '갈산동', '삼산동', '부개동', '십정동', '일신동'] },
   yeonsu: { name: '연수구', dongs: ['옥련동', '선학동', '연수동', '청학동', '동춘동', '송도동'] },
-  namdong: { name: '남동구', dongs: ['구월동', '간석동', '만수동', '장수동', '서창동', '논현동'] },
-  seogu: { name: '서구', dongs: ['검암동', '연희동', '청라동', '루원시티', '검단동', '당하동'] },
-  michuhol: { name: '미추홀구', dongs: ['숭의동', '용현동', '학익동', '도화동', '주안동', '관교동'] },
-  gyeyang: { name: '계양구', dongs: ['효성동', '계산동', '작전동', '서운동', '계양동'] },
-  junggu: { name: '중구', dongs: ['신포동', '연안동', '영종동', '운서동', '용유동'] },
+  namdong: { name: '남동구', dongs: ['구월동', '간석동', '만수동', '장수동', '서창동', '논현동', '남촌동', '고잔동'] },
+  seogu: { name: '서구', dongs: ['검암동', '연희동', '청라동', '루원시티', '검단동', '당하동', '신현동', '석남동', '가좌동'] },
+  michuhol: { name: '미추홀구', dongs: ['숭의동', '용현동', '학익동', '도화동', '주안동', '관교동', '문학동'] },
+  gyeyang: { name: '계양구', dongs: ['효성동', '계산동', '작전동', '서운동', '계양동', '임학동', '용종동'] },
+  junggu: { name: '중구', dongs: ['신포동', '연안동', '영종동', '운서동', '용유동', '동인천동', '북성동'] },
   donggu: { name: '동구', dongs: ['만석동', '화수동', '송현동', '송림동', '금창동'] }
 };
 
 export default function IncheonMainPage() {
   return (
     <div className="bg-[#faf6fb] text-[#403656] min-h-screen flex flex-col font-sans antialiased">
-      {/* ⭐️ 네이버 로봇(Yeti) 전용 우회/회피 숨김 키워드 수집 노드 */}
-      <div className="sr-only" aria-hidden="true">
-        <ul>
-          {Object.entries(incheonGus).map(([key, data]) => (
-            <li key={key}>
-              <a href={`/${key}`}>
-                <strong>인천광역시 {data.name}출장마사지</strong>
-              </a>
-              <ul>
-                {data.dongs.map((dong) => (
-                  <li key={dong}>
-                    <a href={`/${key}`}>
-                      <strong>인천 {data.name} {dong}출장마사지</strong>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ul>
-      </div>
-
       {/* 상단 띠 배너 */}
       <div className="bg-gradient-to-r from-[#f4edf7] to-[#f7eef3] border-b border-[#ece2f0] text-xs text-[#8b7f9e] py-2 px-4">
         <div className="max-w-[1080px] mx-auto flex justify-between items-center flex-wrap gap-2">
@@ -162,7 +140,7 @@ export default function IncheonMainPage() {
         </div>
       </section>
 
-      {/* ⭐️ 추천 제휴 업체 5개 목록 (전화/문자 연동) */}
+      {/* 추천 제휴 업체 5개 목록 */}
       <main className="max-w-[1080px] mx-auto px-5 py-10 w-full flex-1">
         <h2 className="text-2xl font-bold mb-2">건마사랑인천 <span className="text-[#5fc7ad]">추천 제휴업체</span></h2>
         <p className="text-xs text-[#8b7f9e] mb-6">원하시는 업체의 코스를 확인 후 전화/문자로 편리하게 예약하세요.</p>
@@ -211,7 +189,7 @@ export default function IncheonMainPage() {
           ))}
         </div>
 
-        {/* 인천 구별 바로가기 */}
+        {/* ⭐️ [핵심 변경 영역] 네이버 봇이 자연스럽게 링크를 타고 크롤링하도록 화면 노출 링크화 */}
         <section className="bg-white border border-[#ece2f0] rounded-2xl p-6 mt-12">
           <h3 className="text-sm font-bold text-[#a98ce2] mb-3">인천광역시 구별 바로가기</h3>
           <div className="flex flex-wrap gap-2 mb-6">
@@ -228,11 +206,17 @@ export default function IncheonMainPage() {
 
           <h3 className="text-sm font-bold text-[#8b7f9e] mb-3">인천 주요 동 바로가기</h3>
           <div className="flex flex-wrap gap-1.5">
-            {Object.values(incheonGus).flatMap(g => g.dongs).map((dong) => (
-              <span key={dong} className="text-[11px] px-2.5 py-1 bg-[#faf6fb] text-[#8b7f9e] rounded-lg border border-[#ece2f0]">
-                {dong}출장마사지
-              </span>
-            ))}
+            {Object.entries(incheonGus).flatMap(([guKey, guData]) =>
+              guData.dongs.map((dong) => (
+                <a
+                  key={`${guKey}-${dong}`}
+                  href={`/${guKey}/${encodeURIComponent(dong)}`}
+                  className="text-[11px] px-2.5 py-1 bg-[#faf6fb] text-[#8b7f9e] rounded-lg border border-[#ece2f0] hover:border-[#a98ce2] hover:text-[#a98ce2] transition-all"
+                >
+                  {dong}출장마사지
+                </a>
+              ))
+            )}
           </div>
         </section>
 
