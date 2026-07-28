@@ -2,12 +2,11 @@
 
 import { use } from "react";
 
-// ⭐️ 인천 지역 제휴 5개 업체 데이터 (구별 페이지에도 동일하게 노출)
+// 제휴 5개 업체 데이터
 const shops = [
   {
     id: 1,
     name: "인천한국미인홈케어",
-    location: "인천 전지역",
     desc: "24시 정성 가득한 타이 & 아로마 전문 방문 케어",
     phone: "0507-1280-3324",
     badge: "추천업체",
@@ -19,7 +18,6 @@ const shops = [
   {
     id: 2,
     name: "인천기쁨홈타이",
-    location: "인천 전지역",
     desc: "지친 일상에 편안한 휴식을 선사하는 프리미엄 힐링 릴렉싱",
     phone: "0507-1280-3325",
     badge: "인기폭발",
@@ -31,7 +29,6 @@ const shops = [
   {
     id: 3,
     name: "인천어린마인드홈타이",
-    location: "인천 전지역",
     desc: "빠른 방문과 철저한 위생 관리를 약속드리는 전문 홈케어",
     phone: "0507-1280-3326",
     badge: "24시상시",
@@ -43,7 +40,6 @@ const shops = [
   {
     id: 4,
     name: "인천미인클럽홈타이",
-    location: "인천 전지역",
     desc: "베테랑 관리사의 맞춤형 피로 회복 맞춤 케어 프로그램",
     phone: "0507-1280-3327",
     badge: "신규제휴",
@@ -55,7 +51,6 @@ const shops = [
   {
     id: 5,
     name: "인천퀸즈 홈테라피",
-    location: "인천 전지역",
     desc: "100% 후불제 안심 이용, 인천 전지역 25분 내 빠른 도착",
     phone: "0507-1280-3328",
     badge: "만족도1위",
@@ -66,42 +61,17 @@ const shops = [
   }
 ];
 
-// ⭐️ 인천 8개 구 및 세부 동 전체 데이터
-const incheonGus = {
-  bupyeong: { name: '부평구', dongs: ['부평동', '산곡동', '청천동', '갈산동', '삼산동', '부개동', '십정동', '일신동'] },
-  yeonsu: { name: '연수구', dongs: ['옥련동', '선학동', '연수동', '청학동', '동춘동', '송도동'] },
-  namdong: { name: '남동구', dongs: ['구월동', '간석동', '만수동', '장수동', '서창동', '논현동', '남촌동', '고잔동'] },
-  seogu: { name: '서구', dongs: ['검암동', '연희동', '청라동', '루원시티', '검단동', '당하동', '신현동', '석남동', '가좌동'] },
-  michuhol: { name: '미추홀구', dongs: ['숭의동', '용현동', '학익동', '도화동', '주안동', '관교동', '문학동'] },
-  gyeyang: { name: '계양구', dongs: ['효성동', '계산동', '작전동', '서운동', '계양동', '임학동', '용종동'] },
-  junggu: { name: '중구', dongs: ['신포동', '연안동', '영종동', '운서동', '용유동', '동인천동', '북성동'] },
-  donggu: { name: '동구', dongs: ['만석동', '화수동', '송현동', '송림동', '금창동'] }
-};
-
-export default function IncheonGuPage({ params }) {
+export default function IncheonDongPage({ params }) {
   const resolvedParams = use(params);
-  const guKey = resolvedParams.gu;
-  const guData = incheonGus[guKey] || { name: '인천', dongs: [] };
+  const gu = decodeURIComponent(resolvedParams.gu || '');
+  const dong = decodeURIComponent(resolvedParams.dong || '');
 
   return (
     <div className="bg-[#faf6fb] text-[#403656] min-h-screen flex flex-col font-sans antialiased">
-      {/* ⭐️ 네이버 로봇(Yeti) 우회 수집용 은닉 동 키워드 노드 */}
-      <div className="sr-only" aria-hidden="true">
-        <ul>
-          {guData.dongs.map((dong) => (
-            <li key={dong}>
-              <a href={`/${guKey}/${encodeURIComponent(dong)}`}>
-                <strong>인천 {guData.name} {dong}출장마사지 홈타이 스웨디시</strong>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-
       {/* 상단 띠 배너 */}
       <div className="bg-gradient-to-r from-[#f4edf7] to-[#f7eef3] border-b border-[#ece2f0] text-xs text-[#8b7f9e] py-2 px-4">
         <div className="max-w-[1080px] mx-auto flex justify-between items-center flex-wrap gap-2">
-          <span>◆ 인천 {guData.name} 전지역 방문 관리 · 위생/안전 기준 준수</span>
+          <span>◆ 인천 {dong} 24시 출장마사지 · 위생/안전 기준 준수</span>
           <span><b className="text-[#5fc7ad]">24시간 상담</b> · 연중무휴</span>
         </div>
       </div>
@@ -113,10 +83,10 @@ export default function IncheonGuPage({ params }) {
             <span className="bg-gradient-to-r from-[#a98ce2] to-[#5fc7ad] bg-clip-text text-transparent">
               건마사랑인천
             </span>
-            <span className="text-xs text-[#8b7f9e] font-semibold">{guData.name}</span>
+            <span className="text-xs text-[#8b7f9e] font-semibold">{dong}</span>
           </a>
-          <a href="/" className="text-xs text-[#8b7f9e] hover:text-[#a98ce2] font-semibold">
-            &larr; 인천 전체 메인으로
+          <a href={`/${gu}`} className="text-xs text-[#8b7f9e] hover:text-[#a98ce2] font-semibold">
+            &larr; 상위 구 목록으로
           </a>
         </div>
       </header>
@@ -125,37 +95,21 @@ export default function IncheonGuPage({ params }) {
       <section className="bg-radial from-[#a98ce2]/20 via-transparent to-[#faf6fb] border-b border-[#ece2f0] py-10 px-5">
         <div className="max-w-[1080px] mx-auto text-left">
           <span className="inline-block border border-[#ece2f0] bg-[#f4eef7] text-[#5fc7ad] font-bold text-xs px-3 py-1 rounded-full mb-3">
-            ◆ 인천 {guData.name} 전지역 25분 내 빠른 방문
+            ◆ 인천 {dong} 전지역 25분 내 빠른 방문
           </span>
           <h1 className="text-3xl md:text-4xl font-extrabold text-[#403656] leading-tight mb-3">
-            인천 <span className="text-[#a98ce2]">{guData.name}</span> 출장마사지 · 홈타이<br />동별 방문 예약 추천 안내
+            인천 <span className="text-[#a98ce2]">{dong}</span> 출장마사지 · 홈타이<br />24시 추천 제휴업체 안내
           </h1>
-          <p className="text-[#8b7f9e] text-sm md:text-base max-w-2xl mb-6">
-            인천 {guData.name} 전지역({guData.dongs.join(', ')}) 어디서나 25분 내 빠른 케어가 가능합니다. 엄선된 5개 제휴업체의 코스와 가격을 확인해 보세요.
+          <p className="text-[#8b7f9e] text-sm md:text-base max-w-2xl">
+            인천 {dong} 지역 인근에 25분 내 빠른 방문이 가능한 출장마사지 전문 제휴업체 정보입니다.
           </p>
-
-          {/* ⭐️ 상단 동 단위 태그 클릭 링크 모음 (위치 정상화) */}
-          <div className="bg-white border border-[#ece2f0] rounded-2xl p-5 shadow-sm">
-            <h3 className="text-xs font-bold text-[#a98ce2] mb-3">인천 {guData.name} 세부 동별 바로가기</h3>
-            <div className="flex flex-wrap gap-2">
-              {guData.dongs.map((dong) => (
-                <a
-                  key={dong}
-                  href={`/${guKey}/${encodeURIComponent(dong)}`}
-                  className="text-xs px-3 py-1.5 bg-[#f4eef7] text-[#403656] rounded-xl border border-[#ece2f0] font-semibold hover:border-[#a98ce2] hover:text-[#a98ce2] transition-all"
-                >
-                  {dong}출장마사지
-                </a>
-              ))}
-            </div>
-          </div>
         </div>
       </section>
 
-      {/* ⭐️ 업체 5개 목록 출력 섹션 */}
+      {/* 업체 5개 목록 */}
       <main className="max-w-[1080px] mx-auto px-5 py-10 w-full flex-1">
-        <h2 className="text-2xl font-bold mb-2">인천 {guData.name} 추천 <span className="text-[#5fc7ad]">제휴업체 목록</span></h2>
-        <p className="text-xs text-[#8b7f9e] mb-6">인천 {guData.name} 전지역에 빠르게 방문케어해 드리는 24시 제휴 업체입니다.</p>
+        <h2 className="text-2xl font-bold mb-2">인천 {dong} 추천 <span className="text-[#5fc7ad]">제휴업체 목록</span></h2>
+        <p className="text-xs text-[#8b7f9e] mb-6">100% 후불제로 안심하고 이용할 수 있는 추천 업체입니다.</p>
 
         <div className="space-y-6">
           {shops.map((shop) => (
@@ -166,13 +120,12 @@ export default function IncheonGuPage({ params }) {
                     {shop.badge}
                   </span>
                   <h3 className="text-xl font-bold text-[#403656] inline-block">{shop.name}</h3>
-                  <p className="text-xs text-[#5fc7ad] font-semibold mt-1">인천 {guData.name} 전지역 (25분 도착)</p>
+                  <p className="text-xs text-[#5fc7ad] font-semibold mt-1">인천 {dong} 전지역 (25분 도착)</p>
                 </div>
               </div>
 
               <p className="text-xs text-[#8b7f9e] mb-4">{shop.desc}</p>
 
-              {/* 코스 및 요금표 */}
               <div className="bg-[#f4eef7] rounded-xl p-3 mb-4 space-y-1.5 border border-[#ece2f0]">
                 {shop.courses.map((course, idx) => (
                   <div key={idx} className="flex justify-between text-xs">
@@ -182,7 +135,6 @@ export default function IncheonGuPage({ params }) {
                 ))}
               </div>
 
-              {/* 전화하기 / 문자하기 버튼 */}
               <div className="grid grid-cols-2 gap-3">
                 <a
                   href={`tel:${shop.phone}`}
@@ -191,7 +143,7 @@ export default function IncheonGuPage({ params }) {
                   📞 전화 문의하기
                 </a>
                 <a
-                  href={`sms:${shop.phone}?body=${encodeURIComponent(`[건마사랑인천 - ${guData.name}] ${shop.name} 문의드립니다.`)}`}
+                  href={`sms:${shop.phone}?body=${encodeURIComponent(`[건마사랑인천 - ${dong}] ${shop.name} 문의드립니다.`)}`}
                   className="flex items-center justify-center gap-1 bg-white text-[#403656] font-bold py-3 rounded-xl text-xs border border-[#ece2f0] hover:bg-[#f4eef7] transition-all"
                 >
                   💬 문자 예약하기
@@ -202,17 +154,12 @@ export default function IncheonGuPage({ params }) {
         </div>
       </main>
 
-      {/* 푸터 영역 */}
-      <footer className="bg-[#f4edf7] border-t border-[#ece2f0] py-8 px-5 text-xs text-[#8b7f9e] mt-auto">
-        <div className="max-w-[1080px] mx-auto text-center space-y-2">
-          <p className="font-bold text-[#403656]">건마사랑인천 · {guData.name}</p>
-          <p className="text-[11px] text-[#9a8fae] max-w-xl mx-auto pt-1">
-            서비스 방문 가능 동: {guData.dongs.map(d => `${guData.name} ${d}`).join(', ')}
-          </p>
-          <p className="pt-2 text-[11px] text-[#9a8fae]">
-            © 2026 건마사랑인천. All rights reserved. 100% 후불제 안심 방문케어.
-          </p>
-        </div>
+      {/* 푸터 */}
+      <footer className="bg-[#f4edf7] border-t border-[#ece2f0] py-8 px-5 text-xs text-[#8b7f9e] mt-auto text-center">
+        <p className="font-bold text-[#403656]">건마사랑인천 · {dong}</p>
+        <p className="pt-2 text-[11px] text-[#9a8fae]">
+          © 2026 건마사랑인천. All rights reserved.
+        </p>
       </footer>
 
       {/* 화면 하단 우측 고정 전화 버튼 */}
