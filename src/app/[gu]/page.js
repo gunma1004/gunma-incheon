@@ -1,72 +1,6 @@
-"use client";
+// ⭐️ 서버/클라이언트 불일치를 방지하고 완벽히 렌더링되도록 처리된 코드
 
-import { use } from "react";
-
-// ⭐️ 인천 지역 제휴 5개 업체 데이터 (구별 페이지에도 동일하게 노출)
-const shops = [
-  {
-    id: 1,
-    name: "인천한국미인홈케어",
-    location: "인천 전지역",
-    desc: "24시 정성 가득한 타이 & 아로마 전문 방문 케어",
-    phone: "0507-1280-3324",
-    badge: "추천업체",
-    courses: [
-      { name: "아로마 케어 (60분)", price: "90,000원" },
-      { name: "스웨디시 코스 (60분)", price: "140,000원" },
-    ]
-  },
-  {
-    id: 2,
-    name: "인천기쁨홈타이",
-    location: "인천 전지역",
-    desc: "지친 일상에 편안한 휴식을 선사하는 프리미엄 힐링 릴렉싱",
-    phone: "0507-1280-3325",
-    badge: "인기폭발",
-    courses: [
-      { name: "건식 타이 (60분)", price: "60,000원" },
-      { name: "프리미엄 스웨디시 (60분)", price: "140,000원" },
-    ]
-  },
-  {
-    id: 3,
-    name: "인천어린마인드홈타이",
-    location: "인천 전지역",
-    desc: "빠른 방문과 철저한 위생 관리를 약속드리는 전문 홈케어",
-    phone: "0507-1280-3326",
-    badge: "24시상시",
-    courses: [
-      { name: "타이/아로마 (60분)", price: "60,000원" },
-      { name: "한국인 스웨디시 (60분)", price: "140,000원" },
-    ]
-  },
-  {
-    id: 4,
-    name: "인천미인클럽홈타이",
-    location: "인천 전지역",
-    desc: "베테랑 관리사의 맞춤형 피로 회복 맞춤 케어 프로그램",
-    phone: "0507-1280-3327",
-    badge: "신규제휴",
-    courses: [
-      { name: "타이 코스 (60분)", price: "60,000원" },
-      { name: "한국 스웨디시 (90분)", price: "140,000원" },
-    ]
-  },
-  {
-    id: 5,
-    name: "인천퀸즈 홈테라피",
-    location: "인천 전지역",
-    desc: "100% 후불제 안심 이용, 인천 전지역 25분 내 빠른 도착",
-    phone: "0507-1280-3328",
-    badge: "만족도1위",
-    courses: [
-      { name: "타이 코스 (60분)", price: "60,000원" },
-      { name: "스웨디시 코스 (60분)", price: "140,000원" },
-    ]
-  }
-];
-
-// ⭐️ 인천 8개 구 및 세부 동 전체 데이터
+// ⭐️ 인천 8개 구 및 세부 동 데이터
 const incheonGus = {
   bupyeong: { name: '부평구', dongs: ['부평동', '산곡동', '청천동', '갈산동', '삼산동', '부개동', '십정동', '일신동'] },
   yeonsu: { name: '연수구', dongs: ['옥련동', '선학동', '연수동', '청학동', '동춘동', '송도동'] },
@@ -78,10 +12,69 @@ const incheonGus = {
   donggu: { name: '동구', dongs: ['만석동', '화수동', '송현동', '송림동', '금창동'] }
 };
 
-export default function IncheonGuPage({ params }) {
-  const resolvedParams = use(params);
-  const guKey = resolvedParams.gu;
-  const guData = incheonGus[guKey] || { name: '인천', dongs: [] };
+// ⭐️ 제휴 5개 업체 데이터
+const shops = [
+  {
+    id: 1,
+    name: "인천한국미인홈케어",
+    desc: "24시 정성 가득한 타이 & 아로마 전문 방문 케어",
+    phone: "0507-1280-3324",
+    badge: "추천업체",
+    courses: [
+      { name: "아로마 케어 (60분)", price: "90,000원" },
+      { name: "스웨디시 코스 (60분)", price: "140,000원" },
+    ]
+  },
+  {
+    id: 2,
+    name: "인천기쁨홈타이",
+    desc: "지친 일상에 편안한 휴식을 선사하는 프리미엄 힐링 릴렉싱",
+    phone: "0507-1280-3325",
+    badge: "인기폭발",
+    courses: [
+      { name: "건식 타이 (60분)", price: "60,000원" },
+      { name: "프리미엄 스웨디시 (60분)", price: "140,000원" },
+    ]
+  },
+  {
+    id: 3,
+    name: "인천어린마인드홈타이",
+    desc: "빠른 방문과 철저한 위생 관리를 약속드리는 전문 홈케어",
+    phone: "0507-1280-3326",
+    badge: "24시상시",
+    courses: [
+      { name: "타이/아로마 (60분)", price: "60,000원" },
+      { name: "한국인 스웨디시 (60분)", price: "140,000원" },
+    ]
+  },
+  {
+    id: 4,
+    name: "인천미인클럽홈타이",
+    desc: "베테랑 관리사의 맞춤형 피로 회복 맞춤 케어 프로그램",
+    phone: "0507-1280-3327",
+    badge: "신규제휴",
+    courses: [
+      { name: "타이 코스 (60분)", price: "60,000원" },
+      { name: "한국 스웨디시 (90분)", price: "140,000원" },
+    ]
+  },
+  {
+    id: 5,
+    name: "인천퀸즈 홈테라피",
+    desc: "100% 후불제 안심 이용, 인천 전지역 25분 내 빠른 도착",
+    phone: "0507-1280-3328",
+    badge: "만족도1위",
+    courses: [
+      { name: "타이 코스 (60분)", price: "60,000원" },
+      { name: "스웨디시 코스 (60분)", price: "140,000원" },
+    ]
+  }
+];
+
+export default async function IncheonGuPage({ params }) {
+  const resolvedParams = await params;
+  const guKey = resolvedParams?.gu || 'bupyeong';
+  const guData = incheonGus[guKey] || { name: '부평구', dongs: ['부평동', '산곡동', '청천동', '갈산동', '삼산동', '부개동', '십정동', '일신동'] };
 
   return (
     <div className="bg-[#faf6fb] text-[#403656] min-h-screen flex flex-col font-sans antialiased">
@@ -134,7 +127,7 @@ export default function IncheonGuPage({ params }) {
             인천 {guData.name} 전지역({guData.dongs.join(', ')}) 어디서나 25분 내 빠른 케어가 가능합니다. 엄선된 5개 제휴업체의 코스와 가격을 확인해 보세요.
           </p>
 
-          {/* ⭐️ 상단 동 단위 태그 클릭 링크 모음 (위치 정상화) */}
+          {/* 동 단위 바로가기 링크 모음 */}
           <div className="bg-white border border-[#ece2f0] rounded-2xl p-5 shadow-sm">
             <h3 className="text-xs font-bold text-[#a98ce2] mb-3">인천 {guData.name} 세부 동별 바로가기</h3>
             <div className="flex flex-wrap gap-2">
