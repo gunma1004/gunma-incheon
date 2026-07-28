@@ -1,5 +1,6 @@
 export default function sitemap() {
-  const baseUrl = 'https://gunma-incheon.netlify.app'; // ⭐️ 인천 전용 도메인 주소로 변경
+  // ⭐️ 새로 구매하신 가비아 도메인으로 변경
+  const baseUrl = 'https://gunmalove-incheon.shop';
 
   const incheonGus = [
     'bupyeong', 'yeonsu', 'namdong', 'seogu',

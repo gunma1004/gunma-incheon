@@ -1,7 +1,8 @@
 import "./globals.css";
 
 export const metadata = {
-  metadataBase: new URL("https://gunma-incheon.netlify.app"), // ⭐️ 인천 전용 도메인 주소로 변경
+  // ⭐️ 새로 구매하신 가비아 도메인으로 변경
+  metadataBase: new URL("https://gunmalove-incheon.shop"),
   title: "건마사랑인천 | 24시 인천출장마사지 · 인천홈타이 No.1",
   description: "인천 전지역 25분 내 방문! 부평, 연수구, 송도, 청라, 남동구 등 24시 출장마사지, 홈타이, 스웨디시 전문 추천.",
   alternates: {
@@ -10,7 +11,7 @@ export const metadata = {
   openGraph: {
     title: "건마사랑인천 | 24시 인천출장마사지",
     description: "인천 전지역 25분 방문! 100% 후불제 안심이용 프리미엄 출장케어.",
-    url: "https://gunma-incheon.netlify.app",
+    url: "https://gunmalove-incheon.shop",
     siteName: "건마사랑인천",
     locale: "ko_KR",
     type: "website",
