@@ -29,7 +29,7 @@ export async function generateStaticParams() {
   return paths;
 }
 
-// 2. 검색엔진용 톤다운 메타데이터 생성
+// 2. 검색엔진용 메타데이터 생성 (⭐️ '출장마사지' 키워드 추가)
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { gu, dong } = await params;
   const guData = incheonGus[gu] || { name: '부평구', dongs: ['부평동'] };
@@ -37,11 +37,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const locationTitle = currentDong ? `${guData.name} ${currentDong}` : guData.name;
 
   return {
-    title: `인천 ${locationTitle} 24시 홈케어 테라피 추천 | 건마사랑`,
-    description: `인천 ${locationTitle} 지역 빠른 방문 힐링 케어. 타이, 아로마, 스웨디시 코스 및 후불제 이용 안내.`,
+    title: `인천 ${locationTitle} 출장마사지 24시 홈케어 테라피 추천 | 건마사랑`,
+    description: `인천 ${locationTitle} 출장마사지 방문 힐링 케어. 타이, 아로마, 스웨디시 코스 및 100% 후불제 이용 안내.`,
     openGraph: {
-      title: `인천 ${locationTitle} 홈케어 테라피`,
-      description: `인천 ${locationTitle} 전지역 25분 내 연중무휴 안심 케어.`,
+      title: `인천 ${locationTitle} 출장마사지 홈케어 테라피`,
+      description: `인천 ${locationTitle} 전지역 25분 내 연중무휴 안심 출장마사지.`,
     },
   };
 }
@@ -52,12 +52,12 @@ export default async function IncheonLocationPage({ params }: Props) {
   const currentDong = dong?.[0] ? decodeURIComponent(dong[0]) : '';
   const locationName = currentDong ? `${guData.name} ${currentDong}` : guData.name;
 
-  // ⭐️ [기법 1] JSON-LD 구조화 데이터 (검색로봇이 텍스트 검열 없이 정식 표준 데이터로 수집)
+  // ⭐️ [기법 1] JSON-LD 구조화 데이터 (검색로봇 수집 키워드 강화)
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'HealthAndBeautyBusiness',
-    'name': `건마사랑인천 ${locationName}`,
-    'description': `인천 ${locationName} 24시간 프리미엄 홈케어 테라피 서비스 안내`,
+    'name': `건마사랑인천 ${locationName} 출장마사지`,
+    'description': `인천 ${locationName} 24시간 프리미엄 출장마사지 및 홈케어 테라피 서비스 안내`,
     'areaServed': guData.dongs.map((d) => `인천광역시 ${guData.name} ${d}`),
     'address': {
       '@type': 'PostalAddress',
@@ -77,7 +77,7 @@ export default async function IncheonLocationPage({ params }: Props) {
       {/* 상단 띠 배너 */}
       <div className="bg-gradient-to-r from-[#f4edf7] to-[#f7eef3] border-b border-[#ece2f0] text-xs text-[#8b7f9e] py-2 px-4">
         <div className="max-w-[1080px] mx-auto flex justify-between items-center flex-wrap gap-2">
-          <span>◆ 인천 {locationName} 전지역 케어 · 위생/안전 준수</span>
+          <span>◆ 인천 {locationName} 출장마사지 전지역 케어 · 위생/안전 준수</span>
           <span><b className="text-[#5fc7ad]">24시간 상담</b> · 연중무휴</span>
         </div>
       </div>
@@ -104,37 +104,39 @@ export default async function IncheonLocationPage({ params }: Props) {
             ◆ 인천 {locationName} 25분 내 빠른 방문
           </span>
           
+          {/* ⭐️ H1 메인 제목에 키워드 배치 */}
           <h1 className="text-3xl md:text-4xl font-extrabold text-[#403656] leading-tight mb-3">
-            인천 <span className="text-[#a98ce2]">{locationName}</span> 프리미엄 홈케어<br />24시 맞춤 힐링 테라피
+            인천 <span className="text-[#a98ce2]">{locationName}</span> 출장마사지<br />24시 맞춤 힐링 테라피
           </h1>
 
-          {/* ⭐️ [기법 2] 이미지 + Alt 속성 활용 (텍스트 도배 없이 키워드 정식 수집 유도) */}
+          {/* ⭐️ [기법 2] 이미지 + Alt 속성 활용 */}
           <div className="my-4">
             <img 
-              src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='60' viewBox='0 0 600 60'><rect width='100%' height='100%' fill='%23f4eef7'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%23a98ce2' font-size='14' font-weight='bold'>인천 전지역 24시 안심 후불제 케어 안내</text></svg>"
+              src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='60' viewBox='0 0 600 60'><rect width='100%' height='100%' fill='%23f4eef7'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%23a98ce2' font-size='14' font-weight='bold'>인천 전지역 24시 안심 후불제 출장마사지 안내</text></svg>"
               alt={`인천 ${locationName} 출장마사지 홈타이 스웨디시 24시 예약 수집 가이드`} 
               className="w-full max-w-lg rounded-xl border border-[#ece2f0]"
             />
           </div>
 
           <p className="text-[#8b7f9e] text-sm md:text-base max-w-2xl mb-6">
-            인천 {locationName} 편안한 공간에서 즐기는 프리미엄 테라피 프로그램입니다. 아래의 세부 동별 링크를 선택해 보세요.
+            인천 {locationName} 출장마사지 전문 케어. 편안한 공간에서 즐기는 프리미엄 테라피 프로그램입니다. 아래의 세부 동별 링크를 선택해 보세요.
           </p>
 
-          {/* ⭐️ [기법 3] Client-Side Hydration Component (클라이언트 동적 렌더링) */}
+          {/* ⭐️ [기법 3] Client-Side Hydration Component */}
           <ClientDongSelector guKey={gu} guName={guData.name} dongs={guData.dongs} currentDong={currentDong} />
         </div>
       </section>
 
       {/* 안내 콘텐츠 메인 */}
       <main className="max-w-[1080px] mx-auto px-5 py-10 w-full flex-1">
-        <h2 className="text-2xl font-bold mb-2">인천 {locationName} 추천 <span className="text-[#5fc7ad]">제휴업체</span></h2>
-        <p className="text-xs text-[#8b7f9e] mb-6">엄선된 관리사의 정성 어린 방문 케어 프로그램을 제공합니다.</p>
+        {/* ⭐️ H2 제목 및 설명글에 키워드 배치 */}
+        <h2 className="text-2xl font-bold mb-2">인천 {locationName} 추천 <span className="text-[#5fc7ad]">출장마사지 제휴업체</span></h2>
+        <p className="text-xs text-[#8b7f9e] mb-6">엄선된 관리사의 정성 어린 방문 출장마사지 케어 프로그램을 제공합니다.</p>
 
         <div className="bg-white border border-[#ece2f0] rounded-2xl p-6 shadow-sm">
-          <h3 className="text-lg font-bold text-[#403656] mb-2">인천 {locationName} 24시 안내</h3>
+          <h3 className="text-lg font-bold text-[#403656] mb-2">인천 {locationName} 출장마사지 24시 안내</h3>
           <p className="text-xs text-[#8b7f9e] leading-relaxed mb-4">
-            {locationName} 지역은 예약 문의 후 25분 이내 도착을 원칙으로 하며, 100% 현장 후불 결제 방식으로 안전하게 이용하실 수 있습니다.
+            {locationName} 출장마사지 이용 시 예약 문의 후 25분 이내 도착을 원칙으로 하며, 100% 현장 후불 결제 방식으로 안심하고 이용하실 수 있습니다.
           </p>
           
           <div className="grid grid-cols-2 gap-3 mt-4">
@@ -145,7 +147,7 @@ export default async function IncheonLocationPage({ params }: Props) {
               📞 24시 전화 문의
             </a>
             <a
-              href={`sms:050712803324?body=${encodeURIComponent(`[건마사랑] 인천 ${locationName} 문의드립니다.`)}`}
+              href={`sms:050712803324?body=${encodeURIComponent(`[건마사랑] 인천 ${locationName} 출장마사지 문의드립니다.`)}`}
               className="flex items-center justify-center bg-white text-[#403656] font-bold py-3 rounded-xl text-xs border border-[#ece2f0] hover:bg-[#f4eef7]"
             >
               💬 문자 예약
@@ -157,7 +159,7 @@ export default async function IncheonLocationPage({ params }: Props) {
       {/* 푸터 */}
       <footer className="bg-[#f4edf7] border-t border-[#ece2f0] py-8 px-5 text-xs text-[#8b7f9e] mt-auto">
         <div className="max-w-[1080px] mx-auto text-center space-y-2">
-          <p className="font-bold text-[#403656]">건마사랑인천 · {locationName}</p>
+          <p className="font-bold text-[#403656]">건마사랑인천 · {locationName} 출장마사지</p>
           <p className="pt-2 text-[11px] text-[#9a8fae]">
             © 2026 건마사랑인천. All rights reserved.
           </p>
