@@ -29,19 +29,28 @@ export async function generateStaticParams() {
   return paths;
 }
 
-// 2. 검색엔진용 메타데이터 생성 (⭐️ '출장마사지' 키워드 추가)
+// 2. 검색엔진용 메타데이터 생성 (⭐️ canonical 주소 추가하여 유사페이지 방지)
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { gu, dong } = await params;
   const guData = incheonGus[gu] || { name: '부평구', dongs: ['부평동'] };
   const currentDong = dong?.[0] ? decodeURIComponent(dong[0]) : '';
   const locationTitle = currentDong ? `${guData.name} ${currentDong}` : guData.name;
 
+  // ⭐️ 자기 자신의 정확한 주소 지정 (색인 제외 방지 핵심)
+  const canonicalUrl = currentDong 
+    ? `https://gunmalove-incheon.shop/${gu}/${encodeURIComponent(currentDong)}`
+    : `https://gunmalove-incheon.shop/${gu}`;
+
   return {
     title: `인천 ${locationTitle} 출장마사지 24시 홈케어 테라피 추천 | 건마사랑`,
     description: `인천 ${locationTitle} 출장마사지 방문 힐링 케어. 타이, 아로마, 스웨디시 코스 및 100% 후불제 이용 안내.`,
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
       title: `인천 ${locationTitle} 출장마사지 홈케어 테라피`,
       description: `인천 ${locationTitle} 전지역 25분 내 연중무휴 안심 출장마사지.`,
+      url: canonicalUrl,
     },
   };
 }
@@ -52,7 +61,7 @@ export default async function IncheonLocationPage({ params }: Props) {
   const currentDong = dong?.[0] ? decodeURIComponent(dong[0]) : '';
   const locationName = currentDong ? `${guData.name} ${currentDong}` : guData.name;
 
-  // ⭐️ [기법 1] JSON-LD 구조화 데이터 (검색로봇 수집 키워드 강화)
+  // ⭐️ JSON-LD 구조화 데이터
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'HealthAndBeautyBusiness',
@@ -104,12 +113,10 @@ export default async function IncheonLocationPage({ params }: Props) {
             ◆ 인천 {locationName} 25분 내 빠른 방문
           </span>
           
-          {/* ⭐️ H1 메인 제목에 키워드 배치 */}
           <h1 className="text-3xl md:text-4xl font-extrabold text-[#403656] leading-tight mb-3">
             인천 <span className="text-[#a98ce2]">{locationName}</span> 출장마사지<br />24시 맞춤 힐링 테라피
           </h1>
 
-          {/* ⭐️ [기법 2] 이미지 + Alt 속성 활용 */}
           <div className="my-4">
             <img 
               src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='60' viewBox='0 0 600 60'><rect width='100%' height='100%' fill='%23f4eef7'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%23a98ce2' font-size='14' font-weight='bold'>인천 전지역 24시 안심 후불제 출장마사지 안내</text></svg>"
@@ -122,21 +129,25 @@ export default async function IncheonLocationPage({ params }: Props) {
             인천 {locationName} 출장마사지 전문 케어. 편안한 공간에서 즐기는 프리미엄 테라피 프로그램입니다. 아래의 세부 동별 링크를 선택해 보세요.
           </p>
 
-          {/* ⭐️ [기법 3] Client-Side Hydration Component */}
           <ClientDongSelector guKey={gu} guName={guData.name} dongs={guData.dongs} currentDong={currentDong} />
         </div>
       </section>
 
       {/* 안내 콘텐츠 메인 */}
       <main className="max-w-[1080px] mx-auto px-5 py-10 w-full flex-1">
-        {/* ⭐️ H2 제목 및 설명글에 키워드 배치 */}
         <h2 className="text-2xl font-bold mb-2">인천 {locationName} 추천 <span className="text-[#5fc7ad]">출장마사지 제휴업체</span></h2>
         <p className="text-xs text-[#8b7f9e] mb-6">엄선된 관리사의 정성 어린 방문 출장마사지 케어 프로그램을 제공합니다.</p>
 
         <div className="bg-white border border-[#ece2f0] rounded-2xl p-6 shadow-sm">
           <h3 className="text-lg font-bold text-[#403656] mb-2">인천 {locationName} 출장마사지 24시 안내</h3>
+          
+          {/* ⭐️ 동별로 상이한 본문 텍스트를 배치하여 유사페이지 판정 회피 */}
           <p className="text-xs text-[#8b7f9e] leading-relaxed mb-4">
-            {locationName} 출장마사지 이용 시 예약 문의 후 25분 이내 도착을 원칙으로 하며, 100% 현장 후불 결제 방식으로 안심하고 이용하실 수 있습니다.
+            {currentDong ? (
+              `인천 ${guData.name} ${currentDong} 인근 전지역 출장마사지 빠르게 방문합니다. ${currentDong} 가정집, 오피스텔, 호텔 어디서든 25분 이내 도착하며 100% 현장 후불 결제로 안심하고 이용하실 수 있습니다.`
+            ) : (
+              `인천 ${guData.name} 전지역 24시 출장마사지 서비스입니다. 구별 세부 동 어디서든 예약 문의 후 25분 이내 도착을 원칙으로 하며 100% 현장 후불제로 안전하게 관리해 드립니다.`
+            )}
           </p>
           
           <div className="grid grid-cols-2 gap-3 mt-4">
