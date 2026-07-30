@@ -1,6 +1,70 @@
 import { Metadata } from 'next';
 import ClientDongSelector from './ClientDongSelector';
 
+// ⭐️ 5개 제휴 업체 데이터
+const shops = [
+  {
+    id: 1,
+    name: "한국미인홈케어",
+    location: "인천 전지역",
+    desc: "24시 정성 가득한 타이 & 아로마 전문 케어",
+    phone: "0507-1280-3324",
+    badge: "추천업체",
+    courses: [
+      { name: "아로디시 관리 (60분)", price: "90,000원" },
+      { name: "스웨디시 케어 (60분)", price: "140,000원" },
+    ]
+  },
+  {
+    id: 2,
+    name: "기쁨홈타이",
+    location: "인천 전지역",
+    desc: "지친 일상에 편안한 휴식을 선사하는 프리미엄 힐링샵",
+    phone: "0507-1280-3325",
+    badge: "인기폭발",
+    courses: [
+      { name: "건식 코스 (60분)", price: "60,000원" },
+      { name: "스웨디시 (60분)", price: "140,000원" },
+    ]
+  },
+  {
+    id: 3,
+    name: "어린마인드홈타이",
+    location: "인천 전지역",
+    desc: "빠른 방문과 철저한 위생 관리를 약속드립니다",
+    phone: "0507-1280-3326",
+    badge: "24시상시",
+    courses: [
+      { name: "타이/아로마 (60분)", price: "60,000원" },
+      { name: "한국 스웨디시케어 (60분)", price: "140,000원" },
+    ]
+  },
+  {
+    id: 4,
+    name: "미인클럽홈타이",
+    location: "인천 전지역",
+    desc: "베테랑 관리사의 맞춤형 피로 회복 케어 프로그램",
+    phone: "0507-1280-3327",
+    badge: "신규제휴",
+    courses: [
+      { name: "타이코스 (60분)", price: "60,000원" },
+      { name: "한국스웨디시 (90분)", price: "140,000원" },
+    ]
+  },
+  {
+    id: 5,
+    name: "퀸즈 홈테라피",
+    location: "인천 전지역",
+    desc: "후불제 안심 이용, 인천 전지역 25분 내 빠른 도착",
+    phone: "0507-1280-3328",
+    badge: "만족도1위",
+    courses: [
+      { name: "타이 코스 (60분)", price: "60,000원" },
+      { name: "스웨디시 코스 (60분)", price: "140,000원" },
+    ]
+  }
+];
+
 // ⭐️ 인천 8개 구 및 동 데이터
 const incheonGus: Record<string, { name: string; dongs: string[] }> = {
   bupyeong: { name: '부평구', dongs: ['부평동', '산곡동', '청천동', '갈산동', '삼산동', '부개동', '십정동', '일신동'] },
@@ -29,14 +93,13 @@ export async function generateStaticParams() {
   return paths;
 }
 
-// 2. 검색엔진용 메타데이터 생성 (⭐️ canonical 주소 추가하여 유사페이지 방지)
+// 2. 검색엔진용 메타데이터 생성
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { gu, dong } = await params;
   const guData = incheonGus[gu] || { name: '부평구', dongs: ['부평동'] };
   const currentDong = dong?.[0] ? decodeURIComponent(dong[0]) : '';
   const locationTitle = currentDong ? `${guData.name} ${currentDong}` : guData.name;
 
-  // ⭐️ 자기 자신의 정확한 주소 지정 (색인 제외 방지 핵심)
   const canonicalUrl = currentDong 
     ? `https://gunmalove-incheon.shop/${gu}/${encodeURIComponent(currentDong)}`
     : `https://gunmalove-incheon.shop/${gu}`;
@@ -133,37 +196,50 @@ export default async function IncheonLocationPage({ params }: Props) {
         </div>
       </section>
 
-      {/* 안내 콘텐츠 메인 */}
+      {/* 안내 콘텐츠 메인 (⭐️ 5개 제휴 업체 목록) */}
       <main className="max-w-[1080px] mx-auto px-5 py-10 w-full flex-1">
         <h2 className="text-2xl font-bold mb-2">인천 {locationName} 추천 <span className="text-[#5fc7ad]">출장마사지 제휴업체</span></h2>
         <p className="text-xs text-[#8b7f9e] mb-6">엄선된 관리사의 정성 어린 방문 출장마사지 케어 프로그램을 제공합니다.</p>
 
-        <div className="bg-white border border-[#ece2f0] rounded-2xl p-6 shadow-sm">
-          <h3 className="text-lg font-bold text-[#403656] mb-2">인천 {locationName} 출장마사지 24시 안내</h3>
-          
-          {/* ⭐️ 동별로 상이한 본문 텍스트를 배치하여 유사페이지 판정 회피 */}
-          <p className="text-xs text-[#8b7f9e] leading-relaxed mb-4">
-            {currentDong ? (
-              `인천 ${guData.name} ${currentDong} 인근 전지역 출장마사지 빠르게 방문합니다. ${currentDong} 가정집, 오피스텔, 호텔 어디서든 25분 이내 도착하며 100% 현장 후불 결제로 안심하고 이용하실 수 있습니다.`
-            ) : (
-              `인천 ${guData.name} 전지역 24시 출장마사지 서비스입니다. 구별 세부 동 어디서든 예약 문의 후 25분 이내 도착을 원칙으로 하며 100% 현장 후불제로 안전하게 관리해 드립니다.`
-            )}
-          </p>
-          
-          <div className="grid grid-cols-2 gap-3 mt-4">
-            <a
-              href="tel:050712803324"
-              className="flex items-center justify-center bg-gradient-to-r from-[#a98ce2] to-[#5fc7ad] text-[#3a3152] font-bold py-3 rounded-xl text-xs shadow-sm hover:opacity-90"
-            >
-              📞 24시 전화 문의
-            </a>
-            <a
-              href={`sms:050712803324?body=${encodeURIComponent(`[건마사랑] 인천 ${locationName} 출장마사지 문의드립니다.`)}`}
-              className="flex items-center justify-center bg-white text-[#403656] font-bold py-3 rounded-xl text-xs border border-[#ece2f0] hover:bg-[#f4eef7]"
-            >
-              💬 문자 예약
-            </a>
-          </div>
+        {/* ⭐️ 5개 업체 카드 렌더링 */}
+        <div className="space-y-6">
+          {shops.map((shop) => (
+            <article key={shop.id} className="bg-white border border-[#ece2f0] rounded-2xl p-6 shadow-sm hover:border-[#a98ce2] transition-all">
+              <div className="flex justify-between items-start mb-3">
+                <div>
+                  <span className="inline-block text-[10px] bg-[#f4eef7] text-[#a98ce2] font-bold px-2 py-0.5 rounded mr-2">{shop.badge}</span>
+                  <h3 className="text-xl font-bold text-[#403656] inline-block">{shop.name}</h3>
+                  <p className="text-xs text-[#5fc7ad] font-semibold mt-1">인천 {locationName} 전지역 출장 가능</p>
+                </div>
+              </div>
+
+              <p className="text-xs text-[#8b7f9e] mb-4">{shop.desc}</p>
+
+              <div className="bg-[#faf6fb] rounded-xl p-3 mb-4 space-y-1.5 border border-[#ece2f0]">
+                {shop.courses.map((course, idx) => (
+                  <div key={idx} className="flex justify-between text-xs">
+                    <span className="text-[#403656]">{course.name}</span>
+                    <span className="font-bold text-[#a98ce2]">{course.price}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <a
+                  href={`tel:${shop.phone}`}
+                  className="flex items-center justify-center gap-1.5 bg-gradient-to-r from-[#a98ce2] to-[#5fc7ad] text-[#3a3152] font-bold py-3 rounded-xl text-xs shadow-sm hover:opacity-90 transition-opacity"
+                >
+                  📞 전화 문의하기
+                </a>
+                <a
+                  href={`sms:${shop.phone}?body=${encodeURIComponent(`[건마사랑] 인천 ${locationName} ${shop.name} 문의드립니다.`)}`}
+                  className="flex items-center justify-center gap-1.5 bg-white text-[#403656] font-bold py-3 rounded-xl text-xs border border-[#ece2f0] hover:bg-[#f4eef7] transition-colors"
+                >
+                  💬 문자 예약하기
+                </a>
+              </div>
+            </article>
+          ))}
         </div>
       </main>
 
