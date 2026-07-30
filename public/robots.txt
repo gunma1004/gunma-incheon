@@ -1,0 +1,3 @@
+ser-agent: *
+Allow: /
+Sitemap: https://gunmalove-incheon.shop/sitemap.xml
