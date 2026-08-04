@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-// ⭐️ 새로운 레이아웃에 맞춘 프리미엄 제휴 업체 데이터
+// ⭐️ 이미지가 포함된 프리미엄 제휴 업체 데이터 (대표번호 제거 버전)
 const newShops = [
   {
     id: 1,
@@ -12,6 +12,7 @@ const newShops = [
     phone: "0507-1280-3324",
     badge: "⭐ 실시간 추천 1위",
     accent: "from-pink-500 to-rose-600",
+    image: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80",
     courses: [
       { name: "아로마 케어 (60분)", price: "90,000원" },
       { name: "스웨디시 코스 (60분)", price: "140,000원" },
@@ -25,6 +26,7 @@ const newShops = [
     phone: "0507-1280-3325",
     badge: "🔥 인기폭발",
     accent: "from-purple-500 to-indigo-600",
+    image: "https://images.unsplash.com/photo-1519824148171-264c178d6bce?auto=format&fit=crop&w=800&q=80",
     courses: [
       { name: "건식 타이 (60분)", price: "60,000원" },
       { name: "프리미엄 스웨디시 (60분)", price: "140,000원" },
@@ -38,6 +40,7 @@ const newShops = [
     phone: "0507-1280-3326",
     badge: "⚡ 24시 상시",
     accent: "from-cyan-500 to-blue-600",
+    image: "https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?auto=format&fit=crop&w=800&q=80",
     courses: [
       { name: "타이/아로마 (60분)", price: "60,000원" },
       { name: "한국인 스웨디시 (60분)", price: "140,000원" },
@@ -51,6 +54,7 @@ const newShops = [
     phone: "0507-1280-3327",
     badge: "💎 신규 제휴특가",
     accent: "from-amber-500 to-orange-600",
+    image: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=800&q=80",
     courses: [
       { name: "타이 코스 (60분)", price: "60,000원" },
       { name: "한국 스웨디시 (90분)", price: "140,000원" },
@@ -64,6 +68,7 @@ const newShops = [
     phone: "0507-1280-3328",
     badge: "🏆 만족도 최우수",
     accent: "from-emerald-500 to-teal-600",
+    image: "https://images.unsplash.com/photo-1512290900722-9a707b82b9db?auto=format&fit=crop&w=800&q=80",
     courses: [
       { name: "타이 코스 (60분)", price: "60,000원" },
       { name: "스웨디시 코스 (60분)", price: "140,000원" },
@@ -82,7 +87,7 @@ export default function IncheonMassageClient() {
         ⚡ [인천 전지역 실시간 출장 현황] 각 구별 전문 관리사 25분 내 즉시 대기 및 배정 중! 🔥
       </div>
 
-      {/* 헤더 (대표 콜센터 버튼 제거) */}
+      {/* 헤더 (콜센터/전화예약 버튼 완전 제거) */}
       <header className="sticky top-0 z-50 bg-[#090d16]/90 backdrop-blur-md border-b border-slate-800">
         <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
           <a href="/" className="flex items-center gap-2.5">
@@ -146,7 +151,7 @@ export default function IncheonMassageClient() {
         </div>
       </section>
 
-      {/* 메인 제휴 업체 카드 그리드 섹션 */}
+      {/* 메인 제휴 업체 카드 그리드 섹션 (이미지 포함) */}
       <main className="max-w-6xl mx-auto px-6 py-16 w-full flex-1">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-10 gap-4">
           <div>
@@ -161,50 +166,64 @@ export default function IncheonMassageClient() {
           {newShops.map((shop) => (
             <article 
               key={shop.id} 
-              className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-2xl hover:border-pink-500/50 transition-all duration-300 flex flex-col justify-between group relative overflow-hidden"
+              className="bg-slate-900/90 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl hover:border-pink-500/50 transition-all duration-300 flex flex-col justify-between group relative"
             >
-              <div className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${shop.accent}`}></div>
+              <div className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${shop.accent} z-10`}></div>
 
-              <div>
-                <div className="flex justify-between items-start mb-4">
-                  <span className="text-[11px] font-bold bg-slate-800 text-slate-300 px-3 py-1 rounded-full border border-slate-700">
+              {/* 업체 썸네일 이미지 */}
+              <div className="h-48 relative overflow-hidden">
+                <img 
+                  src={shop.image} 
+                  alt={shop.name} 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent"></div>
+                <div className="absolute top-4 left-4 z-10">
+                  <span className="text-[11px] font-bold bg-slate-900/80 backdrop-blur-md text-slate-200 px-3 py-1 rounded-full border border-slate-700 shadow-md">
                     {shop.badge}
                   </span>
-                  <span className="text-xs font-bold text-cyan-400 bg-cyan-950/40 px-2.5 py-1 rounded-lg border border-cyan-800/30">
-                    {shop.location}
-                  </span>
-                </div>
-
-                <h3 className="text-xl font-black text-white group-hover:text-pink-400 transition-colors mb-2">
-                  {shop.name}
-                </h3>
-                <p className="text-xs text-slate-400 mb-6 leading-relaxed">
-                  {shop.desc}
-                </p>
-
-                <div className="space-y-2 mb-6">
-                  {shop.courses.map((course, idx) => (
-                    <div key={idx} className="bg-slate-950/70 border border-slate-800/80 p-3 rounded-xl flex justify-between items-center text-xs">
-                      <span className="text-slate-300 font-medium">✨ {course.name}</span>
-                      <span className="font-black text-pink-400 text-sm">{course.price}</span>
-                    </div>
-                  ))}
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-2.5 pt-4 border-t border-slate-800/80">
-                <a
-                  href={`tel:${shop.phone}`}
-                  className="flex items-center justify-center gap-1.5 bg-gradient-to-r from-pink-500 to-rose-600 text-white font-extrabold py-3 rounded-xl text-xs shadow-lg shadow-pink-500/20 hover:scale-[1.02] transition-all"
-                >
-                  📞 전화문의
-                </a>
-                <a
-                  href={`sms:${shop.phone}?body=${encodeURIComponent(`[인천출장마사지] ${shop.name} 예약 문의드립니다.`)}`}
-                  className="flex items-center justify-center gap-1.5 bg-slate-800 text-slate-200 font-extrabold py-3 rounded-xl text-xs border border-slate-700 hover:bg-slate-700 transition-all"
-                >
-                  💬 문자예약
-                </a>
+              <div className="p-6 flex-1 flex flex-col justify-between">
+                <div>
+                  <div className="flex justify-between items-start mb-3">
+                    <h3 className="text-xl font-black text-white group-hover:text-pink-400 transition-colors">
+                      {shop.name}
+                    </h3>
+                  </div>
+                  <span className="inline-block text-xs font-bold text-cyan-400 bg-cyan-950/40 px-2.5 py-1 rounded-lg border border-cyan-800/30 mb-3">
+                    📍 {shop.location}
+                  </span>
+
+                  <p className="text-xs text-slate-400 mb-6 leading-relaxed">
+                    {shop.desc}
+                  </p>
+
+                  <div className="space-y-2 mb-6">
+                    {shop.courses.map((course, idx) => (
+                      <div key={idx} className="bg-slate-950/70 border border-slate-800/80 p-3 rounded-xl flex justify-between items-center text-xs">
+                        <span className="text-slate-300 font-medium">✨ {course.name}</span>
+                        <span className="font-black text-pink-400 text-sm">{course.price}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2.5 pt-4 border-t border-slate-800/80">
+                  <a
+                    href={`tel:${shop.phone}`}
+                    className="flex items-center justify-center gap-1.5 bg-gradient-to-r from-pink-500 to-rose-600 text-white font-extrabold py-3 rounded-xl text-xs shadow-lg shadow-pink-500/20 hover:scale-[1.02] transition-all"
+                  >
+                    📞 전화문의
+                  </a>
+                  <a
+                    href={`sms:${shop.phone}?body=${encodeURIComponent(`[인천출장마사지] ${shop.name} 예약 문의드립니다.`)}`}
+                    className="flex items-center justify-center gap-1.5 bg-slate-800 text-slate-200 font-extrabold py-3 rounded-xl text-xs border border-slate-700 hover:bg-slate-700 transition-all"
+                  >
+                    💬 문자예약
+                  </a>
+                </div>
               </div>
             </article>
           ))}
@@ -240,14 +259,6 @@ export default function IncheonMassageClient() {
           </p>
         </div>
       </footer>
-
-      {/* 우측 하단 고정 플로팅 예약 버튼 */}
-      <a
-        href="tel:050712803324"
-        className="fixed right-6 bottom-6 z-50 bg-gradient-to-r from-pink-500 via-purple-600 to-cyan-400 text-white font-black px-6 py-4 rounded-full shadow-[0_0_30px_rgba(236,72,153,0.5)] text-sm flex items-center gap-2 hover:scale-110 transition-all animate-bounce"
-      >
-        📞 24시 실시간 전화예약
-      </a>
     </div>
   );
 }
