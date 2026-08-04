@@ -82,7 +82,7 @@ export default function IncheonMassageClient() {
         ⚡ [인천 전지역 실시간 출장 현황] 각 구별 전문 관리사 25분 내 즉시 대기 및 배정 중! 🔥
       </div>
 
-      {/* 헤더 */}
+      {/* 헤더 (대표 콜센터 버튼 제거) */}
       <header className="sticky top-0 z-50 bg-[#090d16]/90 backdrop-blur-md border-b border-slate-800">
         <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
           <a href="/" className="flex items-center gap-2.5">
@@ -96,16 +96,13 @@ export default function IncheonMassageClient() {
               <span className="text-[10px] text-cyan-400 font-bold uppercase tracking-widest">Premium Home-Thai</span>
             </div>
           </a>
-          <a
-            href="tel:050712803324"
-            className="bg-gradient-to-r from-pink-500 to-rose-600 text-white font-extrabold px-5 py-2.5 rounded-xl text-xs shadow-lg shadow-pink-500/30 hover:scale-105 transition-all flex items-center gap-1.5"
-          >
-            <span>📞</span> 대표 콜센터 연결
+          <a href="/" className="text-xs text-slate-400 hover:text-white transition-colors font-medium">
+            홈으로 가기
           </a>
         </div>
       </header>
 
-      {/* 히어로 섹션 (임팩트 있는 타이포그래피와 다크 비주얼) */}
+      {/* 히어로 섹션 */}
       <section className="relative overflow-hidden py-20 px-6 border-b border-slate-800/80">
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-pink-500/10 rounded-full blur-[140px] pointer-events-none"></div>
         <div className="absolute top-1/2 left-1/4 w-[400px] h-[400px] bg-cyan-500/10 rounded-full blur-[140px] pointer-events-none"></div>
@@ -128,7 +125,6 @@ export default function IncheonMassageClient() {
             검증된 베테랑 관리사의 1:1 맞춤형 케어로 일상의 활력을 되찾아 드립니다.
           </p>
 
-          {/* 스탯 카드 그리드 */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-left">
             <div className="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl shadow-xl">
               <span className="block text-2xl font-black text-pink-400 mb-1">25분 내외</span>
@@ -167,7 +163,6 @@ export default function IncheonMassageClient() {
               key={shop.id} 
               className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-2xl hover:border-pink-500/50 transition-all duration-300 flex flex-col justify-between group relative overflow-hidden"
             >
-              {/* 상단 포인트 그라데이션 라인 */}
               <div className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${shop.accent}`}></div>
 
               <div>
@@ -187,7 +182,6 @@ export default function IncheonMassageClient() {
                   {shop.desc}
                 </p>
 
-                {/* 코스 및 가격 박스 */}
                 <div className="space-y-2 mb-6">
                   {shop.courses.map((course, idx) => (
                     <div key={idx} className="bg-slate-950/70 border border-slate-800/80 p-3 rounded-xl flex justify-between items-center text-xs">
@@ -198,7 +192,6 @@ export default function IncheonMassageClient() {
                 </div>
               </div>
 
-              {/* 하단 버튼 그룹 */}
               <div className="grid grid-cols-2 gap-2.5 pt-4 border-t border-slate-800/80">
                 <a
                   href={`tel:${shop.phone}`}
@@ -217,7 +210,6 @@ export default function IncheonMassageClient() {
           ))}
         </div>
 
-        {/* 하단 안내 섹션 */}
         <section className="mt-16 bg-slate-900/60 border border-slate-800 rounded-3xl p-8">
           <h3 className="text-base font-black text-white mb-4 flex items-center gap-2">
             🛡️ 안전하고 투명한 이용 안내
@@ -239,7 +231,6 @@ export default function IncheonMassageClient() {
         </section>
       </main>
 
-      {/* 푸터 */}
       <footer className="bg-[#05070d] border-t border-slate-900 py-12 px-6 text-xs text-slate-500 mt-auto">
         <div className="max-w-6xl mx-auto text-center space-y-3">
           <p className="font-bold text-slate-300">인천출장마사지 · 홈타이 통합 안내센터</p>
